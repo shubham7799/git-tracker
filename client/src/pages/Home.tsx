@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "../components/ui/button";
-import { GitBranch } from "lucide-react";
+import { GitBranch, Github } from "lucide-react";
 
 function Home() {
   function loginWithGithub() {
@@ -17,7 +17,7 @@ function Home() {
         Stay tuned with all your Github updates
       </p>
       <Button onClick={loginWithGithub}>
-        <GitBranch />
+        <Github />
         Login With Github
       </Button>
     </div>

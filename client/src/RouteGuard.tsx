@@ -21,7 +21,7 @@ function RouteGuard({ children }: any) {
     }
   }, [accessToken, location]);
 
-  return <div>{children}</div>;
+  return <div className="h-full">{children}</div>;
 }
 
 export default RouteGuard;

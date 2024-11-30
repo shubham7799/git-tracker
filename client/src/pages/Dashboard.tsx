@@ -61,8 +61,12 @@ function Dashboard() {
   }, [accessToken]);
 
   return (
-    <div className="relative">
-      <AddRepository open={openNewRepo} setOpen={setOpenNewRepo} />
+    <div className="relative flex flex-col h-full">
+      <AddRepository
+        open={openNewRepo}
+        setOpen={setOpenNewRepo}
+        onAdd={getRepos}
+      />
       <div className="fixed top-0 bg-white z-50 w-screen flex items-center justify-between p-4 md:px-6 border-b">
         <h1 className="text-3xl font-semibold">GitTracker</h1>
         <DropdownMenu>
@@ -93,7 +97,13 @@ function Dashboard() {
           Refresh
         </Button>
       </div>
-      <RepoView />
+      {repos.length > 0 ? (
+        <RepoView />
+      ) : (
+        <div className="flex justify-center md:pt-20 text-3xl font-semibold">
+          No repos added yet
+        </div>
+      )}
     </div>
   );
 }

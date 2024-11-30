@@ -15,9 +15,10 @@ import { useSelector } from "react-redux";
 type AddRepositoryProps = {
   open: boolean;
   setOpen: (value: boolean) => void;
+  onAdd: () => void;
 };
 
-function AddRepository({ open, setOpen }: AddRepositoryProps) {
+function AddRepository({ open, setOpen, onAdd }: AddRepositoryProps) {
   const [repoLink, setRepoLink] = useState("");
   const accessToken = useSelector((state: any) => state.auth.accessToken);
   const userInfo = useSelector((state: any) => state.auth.userInfo);
@@ -40,8 +41,8 @@ function AddRepository({ open, setOpen }: AddRepositoryProps) {
         }),
       })
         .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
+        .then(async (data) => {
+          await onAdd();
         });
       setRepoLink("");
       setOpen(false);

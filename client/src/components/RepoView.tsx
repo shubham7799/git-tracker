@@ -16,7 +16,7 @@ function RepoView() {
     useMutation(UPDATE_LAST_RELEASE);
 
   return (
-    <div className="flex flex-col md:flex-row h-full border-t">
+    <div className="flex-1 flex flex-col md:flex-row h-full border-t">
       <ScrollArea className="w-full md:w-1/3 h-1/2 md:h-full md:border-r">
         <div className="p-4 space-y-4">
           {repos.map((repo: any) => (
