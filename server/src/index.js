@@ -134,20 +134,26 @@ app.post("/addRepo", async (req, res) => {
 });
 
 async function startServer() {
-  sequelize
-    .authenticate()
-    .then(() => console.log("Database connected..."))
-    .catch((err) => console.log("Error: " + err));
+  try {
+    sequelize
+      .authenticate()
+      .then(() => console.log("Database connected..."))
+      .catch((err) => console.log("Error: " + err));
 
-  await apolloServer.start();
-  apolloServer.applyMiddleware({ app });
+    await sequelize.sync();
 
-  app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-    console.log(
-      `GraphQL endpoint: http://localhost:${PORT}${apolloServer.graphqlPath}`
-    );
-  });
+    await apolloServer.start();
+    apolloServer.applyMiddleware({ app });
+
+    app.listen(PORT, () => {
+      console.log(`Server running at http://localhost:${PORT}`);
+      console.log(
+        `GraphQL endpoint: http://localhost:${PORT}${apolloServer.graphqlPath}`
+      );
+    });
+  } catch (error) {
+    console.error("Error starting server:", error.message);
+  }
 }
 
 startServer();
