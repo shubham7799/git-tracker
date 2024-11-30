@@ -23,11 +23,15 @@ function AddRepository({ open, setOpen, onAdd }: AddRepositoryProps) {
   const accessToken = useSelector((state: any) => state.auth.accessToken);
   const userInfo = useSelector((state: any) => state.auth.userInfo);
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const repoData = getOwnerAndRepo(repoLink);
-    if (repoData && userInfo) {
+    if (!repoData) {
+      setErrorMessage("Please enter a valid url");
+    } else if (userInfo) {
       await fetch(process.env.REACT_APP_BASE_URL + "/addRepo", {
         method: "POST",
         headers: {
@@ -39,13 +43,18 @@ function AddRepository({ open, setOpen, onAdd }: AddRepositoryProps) {
           owner_name: repoData.owner,
           repo_name: repoData.repo,
         }),
-      })
-        .then((response) => response.json())
-        .then(async (data) => {
+      }).then(async (response) => {
+        if (response.status === 409) {
+          setErrorMessage("Repo already added.");
+        } else if (response.status === 404) {
+          setErrorMessage("Repo not found.");
+        } else if (response.status === 201) {
+          setRepoLink("");
+          setErrorMessage("");
+          setOpen(false);
           await onAdd();
-        });
-      setRepoLink("");
-      setOpen(false);
+        }
+      });
     }
   };
 
@@ -73,6 +82,7 @@ function AddRepository({ open, setOpen, onAdd }: AddRepositoryProps) {
               onChange={(e) => setRepoLink(e.target.value)}
               required
             />
+            {<p className="text-sm text-red-400">{errorMessage}</p>}
           </div>
           <DialogFooter>
             <Button type="submit">Add Repository</Button>

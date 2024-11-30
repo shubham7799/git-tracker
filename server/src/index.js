@@ -87,13 +87,6 @@ app.get("/getRepos", async (req, res) => {
       }));
 
       res.status(200).json(resRepos);
-      // .then((releases) => {
-      //   console.log(releases);
-      //   res.status(200).json(releases);
-      // })
-      // .catch((error) => {
-      //   console.error(error);
-      // });
     }
   } catch (error) {
     console.error("Error:", error.message);
