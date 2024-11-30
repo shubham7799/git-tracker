@@ -88,6 +88,12 @@ REACT_APP_BASE_URL=
 REACT_APP_CLIENT_ID=
 ```
 
+#### Start the server:
+
+```sh
+npm start
+```
+
 ## Technologies Used
 
 - Backend: Node.js, Express, Sequelize, PostgreSQL
